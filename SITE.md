@@ -90,6 +90,51 @@ days confirmed in the supplied Coast Cane material.
 
 ---
 
+## Link previews (WhatsApp, Instagram DM, Facebook, X)
+
+When the link is shared, the preview card is built from the Open Graph
+tags in the `<head>` of `index.html`, plus `assets/img/og-image.jpg`.
+
+**These URLs must be absolute.** WhatsApp's crawler does not resolve
+relative paths — a relative `og:image` is the usual reason a shared link
+shows no picture. They currently point at:
+
+```
+https://coastcane.pages.dev
+```
+
+**If the site moves to a custom domain**, change that base in every
+`og:*` / `twitter:*` / `canonical` URL in `index.html`, and in the
+JSON-LD block just below them. It appears in one contiguous block, all
+clearly commented.
+
+### Refreshing a preview after a change
+
+WhatsApp caches previews per URL, sometimes for weeks. If you change
+`og-image.jpg` or the title, bump the version number on the image URL:
+
+```html
+<meta property="og:image" content="…/og-image.jpg?v=2">
+```
+
+For Facebook and WhatsApp you can also force a re-scrape at
+<https://developers.facebook.com/tools/debug/> — paste the link and press
+"Scrape Again". WhatsApp shares Facebook's crawler cache, so this is the
+fastest way to see a new preview.
+
+### Why the image is laid out the way it is
+
+WhatsApp sometimes crops previews toward a square rather than showing the
+full 1.91:1 banner. The logo, headline and delivery days are therefore
+centred, inside the middle 630px of the 1200×630 image, so nothing
+important is lost in either crop. The decorative sugarcane sits in the
+outer margins where it is safe to lose.
+
+Keep any replacement under ~600 KB or WhatsApp may silently skip it. The
+current file is ~106 KB. Regenerate it and the favicons with the scripts
+described in the commit history, or just replace the file at the same
+path and bump `?v=`.
+
 ## Swapping in photography
 
 The site ships with custom-drawn illustrations because no product photography
