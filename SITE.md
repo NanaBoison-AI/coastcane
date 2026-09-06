@@ -80,7 +80,14 @@ product's `price` empty and just that one hides its price.
 
 Add, remove or reorder freely — the grid adapts. Each product needs an `id`,
 `name`, `description`, and an `art` value (`lime`, `mint`, `pineapple`,
-`ginger` or `cane`) which picks the built-in illustration.
+`ginger` or `cane`) which picks its colour panel. Each flavour owns a
+distinct colour so the menu reads as four things, not one recoloured four
+times.
+
+### Ingredients
+
+Each entry carries a `color` used for its accent dot. The section is set as
+an editorial list rather than a row of icon badges.
 
 ### Delivery days
 
@@ -95,16 +102,18 @@ days confirmed in the supplied Coast Cane material.
 The site ships with custom-drawn illustrations because no product photography
 was supplied. Every one of them is designed to be replaced.
 
-**Product cards** — add image paths to the product in `config.js`; they take
-over from the illustration automatically:
+**Product cards** — each flavour currently shows a flat colour panel with
+its ingredient cropped by the frame. Add image paths to the product in
+`config.js` and a photograph takes over automatically:
 
 ```js
 { id: 'classic-lime', name: 'Classic Lime', /* … */
   image: 'assets/img/lime.jpg', imageWebp: 'assets/img/lime.webp' }
 ```
 
-**Instagram gallery** — add entries to `instagram.posts`. Anything with a
-`src` renders as a photo; anything with `src: null` renders a branded tile.
+**Instagram gallery** — add entries to `instagram.posts`; the grid absorbs
+them and the orange follow panel always sits last. Only real posts are
+shown — no filler tiles.
 
 ```js
 { src: 'assets/img/post-4.jpg', webp: 'assets/img/post-4.webp',
@@ -161,7 +170,10 @@ components, so there is a single place to edit it.
   green `#41602F`, wave blue `#039ED5`, cream `#FDF7C5`, sun `#FFCB06`,
   lime `#43A52B`.
 - Usage weighting is roughly 70% cream/white, 15% green, 10% orange,
-  5% blue and lime.
+  5% blue and lime. Green carries three full sections (Why Coast Cane,
+  Delivery, footer) so the identity does not drift yellow.
+- The glass illustration appears exactly once, in the hero. Repeating one
+  asset across a page is what makes a site look generated.
 - Orange buttons use dark green text, not white — white on orange fails
   contrast requirements, dark green passes comfortably at 7.5:1.
 

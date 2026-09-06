@@ -94,8 +94,10 @@
           Cold-pressed sugarcane juice, naturally refreshing and made with love.
         </p>
         <div class="hero__actions">
-          <a class="btn btn--order btn--lg" href="https://www.instagram.com/coast_cane/" data-order-link data-order-label="Order now">Order now</a>
-          <a class="btn btn--outline btn--lg" href="#story">Discover Coast Cane</a>
+          <a class="btn btn--order btn--xl" href="https://www.instagram.com/coast_cane/" data-order-link data-order-label="Order now">Order now</a>
+          <a class="link-arrow hero__link" href="#menu">See the juice
+            <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M3 10h13M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
         </div>
         <p class="hero__note">
           <span class="dot" aria-hidden="true"></span>
@@ -128,12 +130,10 @@
                aria-label="A glass of Coast Cane sugarcane juice with ice and lime, framed by fresh sugarcane"
                data-story-art></svg>
         </div>
-        <span class="story__badge" aria-hidden="true">Cold-pressed</span>
       </figure>
 
       <div class="story__copy reveal" data-reveal>
-        <p class="eyebrow">Our story</p>
-        <h2 class="h2">Naturally good.<br>Seriously refreshing.</h2>
+        <h2 class="h2 story__title">Naturally good.<br>Seriously refreshing.</h2>
         <p>
           We're a cold-pressed sugarcane juice company bringing fresh, natural
           and tasty sugarcane juice to our customers.
@@ -161,7 +161,7 @@
         <p class="lede">Simple ingredients. Big refreshment.</p>
       </header>
 
-      <div class="grid grid--products" data-products></div>
+      <ul class="grid grid--products" data-products></ul>
 
       <p class="menu__foot reveal" data-reveal>
         Flavours rotate with what's fresh —
@@ -173,22 +173,20 @@
   <!-- ========================= 4 — INGREDIENTS ========================= -->
   <section class="section ingredients" id="ingredients">
     <div class="container">
-      <header class="section-head section-head--center reveal" data-reveal>
-        <p class="eyebrow">Ingredients</p>
+      <header class="section-head section-head--wide reveal" data-reveal>
         <h2 class="h2">Straight from nature.</h2>
       </header>
-      <ul class="grid grid--ingredients" data-ingredients></ul>
+      <ul class="ing-list" data-ingredients></ul>
     </div>
   </section>
 
   <!-- ======================= 5 — WHY COAST CANE ======================= -->
   <section class="section section--green why" id="why">
-    <div class="container">
-      <header class="section-head reveal" data-reveal>
-        <p class="eyebrow eyebrow--light">The Coast Cane way</p>
+    <div class="container why__inner">
+      <header class="why__head reveal" data-reveal>
         <h2 class="h2">Why Coast Cane?</h2>
       </header>
-      <ul class="grid grid--features" data-features></ul>
+      <ul class="features" data-features></ul>
     </div>
   </section>
 
@@ -198,7 +196,6 @@
     <div class="lifestyle__scrim" aria-hidden="true"></div>
     <div class="container lifestyle__inner">
       <div class="lifestyle__copy reveal" data-reveal>
-        <p class="eyebrow">Coast Cane moments</p>
         <h2 class="h2" id="lifestyle-title">Made for sunny moments.</h2>
         <p class="lede">
           From quiet mornings to beach days and good times with friends,
@@ -210,10 +207,10 @@
   </section>
 
   <!-- ========================== 7 — DELIVERY ========================== -->
-  <section class="section delivery" id="delivery">
+  <section class="section section--green delivery" id="delivery">
     <div class="container">
-      <header class="section-head section-head--center reveal" data-reveal>
-        <p class="eyebrow">Delivery days</p>
+      <header class="section-head delivery__head reveal" data-reveal>
+        <p class="eyebrow eyebrow--light">Delivery days</p>
         <h2 class="h2">Coast Cane comes to you.</h2>
         <p class="lede">Fresh sugarcane juice delivered to you on our delivery days.</p>
       </header>
@@ -221,18 +218,15 @@
       <ul class="days" data-delivery-days></ul>
 
       <noscript>
-        <div class="noscript">
-          <h3>Our delivery days</h3>
-          <ul><li>Monday</li><li>Wednesday</li><li>Friday</li></ul>
-          <p style="margin-top:1em">
-            To order, message us on
-            <a href="https://www.instagram.com/coast_cane/" target="_blank" rel="noopener">Instagram (@coast_cane)</a>.
-          </p>
-        </div>
+        <ul class="days">
+          <li class="day is-in"><span class="day__n">01</span><span class="day__name">Monday</span></li>
+          <li class="day is-in"><span class="day__n">02</span><span class="day__name">Wednesday</span></li>
+          <li class="day is-in"><span class="day__n">03</span><span class="day__name">Friday</span></li>
+        </ul>
       </noscript>
 
       <div class="delivery__cta reveal" data-reveal>
-        <a class="btn btn--order btn--lg" href="https://www.instagram.com/coast_cane/" data-order-link data-order-label="Order via WhatsApp">
+        <a class="btn btn--order btn--xl" href="https://www.instagram.com/coast_cane/" data-order-link data-order-label="Order via WhatsApp">
           <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path fill="currentColor" d="M12.04 2C6.6 2 2.2 6.4 2.2 11.84c0 1.9.53 3.68 1.45 5.2L2 22l5.1-1.6a9.8 9.8 0 0 0 4.94 1.32h.01c5.43 0 9.84-4.4 9.84-9.84C21.89 6.4 17.48 2 12.04 2Zm0 17.9h-.01a8.2 8.2 0 0 1-4.16-1.14l-.3-.18-3.03.95.96-2.95-.19-.3a8.13 8.13 0 0 1-1.25-4.34c0-4.5 3.67-8.16 8.19-8.16 2.19 0 4.24.85 5.79 2.4a8.11 8.11 0 0 1 2.4 5.77c0 4.5-3.67 8.16-8.4 8.16Zm4.5-6.1c-.25-.13-1.46-.72-1.68-.8-.23-.08-.39-.12-.56.13-.16.24-.63.79-.78.96-.14.16-.29.18-.53.06-.25-.12-1.04-.38-1.98-1.22-.73-.65-1.23-1.46-1.37-1.7-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.44.13-.15.17-.25.25-.42.08-.16.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.48-.4-.42-.56-.43h-.47c-.16 0-.43.06-.65.31-.22.25-.85.83-.85 2.03s.87 2.35.99 2.51c.12.17 1.71 2.61 4.14 3.66.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.46-.6 1.66-1.17.21-.58.21-1.07.15-1.17-.06-.11-.22-.17-.47-.29Z"/>
           </svg>
@@ -247,20 +241,15 @@
   <section class="section section--cream feed" id="instagram">
     <div class="container">
       <header class="section-head section-head--center reveal" data-reveal>
-        <p class="eyebrow">Instagram</p>
         <h2 class="h2">Fresh from our feed.</h2>
         <p class="lede">
           Follow Coast Cane on Instagram for our latest updates, delivery days
           and delicious moments.
         </p>
-        <p class="feed__handle"><a href="https://www.instagram.com/coast_cane/" data-ig-link data-ig-handle target="_blank" rel="noopener">@coast_cane</a></p>
       </header>
 
       <ul class="grid grid--gallery" data-gallery></ul>
 
-      <div class="feed__cta reveal" data-reveal>
-        <a class="btn btn--outline" href="https://www.instagram.com/coast_cane/" data-ig-link target="_blank" rel="noopener">Follow us on Instagram</a>
-      </div>
     </div>
   </section>
 

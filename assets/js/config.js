@@ -58,9 +58,6 @@ window.CoastCane.config = {
         alt: 'The Coast Cane sugarcane juice logo' },
       { src: 'assets/img/ig-3.jpg', webp: 'assets/img/ig-3.webp',
         alt: 'Coast Cane delivery days: Mondays, Wednesday and Friday' },
-      { src: null, art: 'cane',      alt: 'Fresh sugarcane' },
-      { src: null, art: 'lime',      alt: 'Fresh lime' },
-      { src: null, art: 'mint',      alt: 'Fresh mint' },
     ],
   },
 
@@ -127,18 +124,18 @@ window.CoastCane.config = {
   ],
 
   ingredients: [
-    { art: 'cane',      name: 'Fresh sugarcane', note: 'Naturally sweet.' },
-    { art: 'lime',      name: 'Fresh lime',      note: 'A bright citrus kick.' },
-    { art: 'mint',      name: 'Mint',            note: 'Cool and refreshing.' },
-    { art: 'ginger',    name: 'Ginger',          note: 'A little zing.' },
-    { art: 'pineapple', name: 'Pineapple',       note: 'A tropical twist.' },
+    { name: 'Fresh sugarcane', note: 'Naturally sweet.',      color: '#B8CF6A' },
+    { name: 'Fresh lime',      note: 'A bright citrus kick.', color: '#C7DE5C' },
+    { name: 'Mint',            note: 'Cool and refreshing.',  color: '#9ECF7E' },
+    { name: 'Ginger',          note: 'A little zing.',        color: '#EFB45E' },
+    { name: 'Pineapple',       note: 'A tropical twist.',     color: '#FFD24E' },
   ],
 
   features: [
-    { n: '01', title: 'Fresh',        note: 'Prepared with freshness in mind.',        icon: 'leaf' },
-    { n: '02', title: 'Cold-pressed', note: 'Fresh sugarcane juice extracted with care.', icon: 'press' },
-    { n: '03', title: 'Natural',      note: 'Made with real ingredients.',             icon: 'drop' },
-    { n: '04', title: 'Made fresh',   note: 'Prepared for our customers with care.',   icon: 'sun' },
+    { n: '01', title: 'Fresh',        note: 'Prepared with freshness in mind.' },
+    { n: '02', title: 'Cold-pressed', note: 'Fresh sugarcane juice extracted with care.' },
+    { n: '03', title: 'Natural',      note: 'Made with real ingredients.' },
+    { n: '04', title: 'Made fresh',   note: 'Prepared for our customers with care.' },
   ],
 
   nav: [
@@ -153,7 +150,7 @@ window.CoastCane.config = {
   cta: {
     nav: 'Order now',
     hero: 'Order now',
-    heroSecondary: 'Discover Coast Cane',
+    heroSecondary: 'See the juice',
     product: 'Order',
     delivery: 'Order via WhatsApp',
     lifestyle: 'Get your juice',
