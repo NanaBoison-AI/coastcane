@@ -25,32 +25,32 @@ from your own domain, so there are no third-party requests at runtime.
 
 ---
 
-## ⚠️ The one thing you must set: the WhatsApp number
+## The WhatsApp number
 
-Open **`assets/js/config.js`** and fill in `contact.whatsappNumber`:
+Set, and live on every order button:
 
 ```js
 contact: {
-  whatsappNumber: '233201234567',   // digits only — no +, no spaces, no leading 0
+  whatsappNumber: '233592703051',   // +233 59 270 3051
   ...
 }
 ```
 
-Use the full international format. For Ghana `+233 20 123 4567` that is
-`233201234567`. (Spaces and a leading `+` are stripped automatically, but the
-clean form is best.)
+To change it, edit **`assets/js/config.js`**. Use the full international
+format, digits only — no `+`, no spaces, no leading zero. For Ghana
+`+233 59 270 3051` that is `233592703051`.
 
-**Until you set it**, every ORDER button falls back to the Coast Cane
-Instagram profile, so nothing on the site is broken and no phone number is
-ever invented. Once set, all 8 order buttons switch to WhatsApp with a
-pre-filled message:
+All 13 order buttons across the page point at WhatsApp with a pre-filled
+message:
 
 - General buttons → *"Hi Coast Cane! I'd like to place an order."*
 - A product card → *"Hi Coast Cane! I'd like to order the Classic Lime."*
 
-Both message templates are editable in the same `contact` block.
+Both templates are editable in the same `contact` block; `{product}` is
+replaced with the product name.
 
----
+If the number is ever emptied, every button falls back to the Coast Cane
+Instagram profile rather than breaking.
 
 ## Everything else you'll want to change
 

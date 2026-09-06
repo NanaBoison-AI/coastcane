@@ -25,18 +25,18 @@ window.CoastCane.config = {
   },
 
   /* ----------------------------------------------------------
-     CONTACT  —  ⚠️ CONFIGURE ME
+     CONTACT
      ----------------------------------------------------------
      whatsappNumber: full international format, DIGITS ONLY.
        No "+", no spaces, no dashes, no leading zero.
        e.g. Ghana +233 20 123 4567  ->  '233201234567'
 
-     While this is left empty, every ORDER button safely falls
-     back to the Coast Cane Instagram profile, so the site never
-     shows a broken or invented number.
+     If this is ever emptied, every ORDER button safely falls back
+     to the Coast Cane Instagram profile, so the site never shows a
+     broken number.
      ---------------------------------------------------------- */
   contact: {
-    whatsappNumber: '',                                     // ⚠️ add number here
+    whatsappNumber: '233592703051',                         // +233 59 270 3051
     whatsappMessage: "Hi Coast Cane! I'd like to place an order.",
     // {product} is replaced with the product name when ordering from a card.
     whatsappProductMessage: "Hi Coast Cane! I'd like to order the {product}.",
