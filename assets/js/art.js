@@ -14,6 +14,15 @@ window.CoastCane = window.CoastCane || {};
 window.CoastCane.art = (function () {
   'use strict';
 
+  /* Flavour palettes for the juice in the glass. */
+  var FLAVOURS = {
+    lime:      { top: '#E2EE6A', bot: '#A8C93B', garnish: 'lime'  },
+    mint:      { top: '#D8EC8E', bot: '#7FB93F', garnish: 'mint'  },
+    pineapple: { top: '#FBE07A', bot: '#EFB524', garnish: 'wedge' },
+    ginger:    { top: '#F6D77E', bot: '#D89A2A', garnish: 'root'  },
+    cane:      { top: '#DDE96B', bot: '#AECB43', garnish: 'cane'  }
+  };
+
   /* ---------- small helpers ---------- */
 
   /* A sine wave as an SVG path, sampled every 4 units. */
@@ -122,26 +131,14 @@ window.CoastCane.art = (function () {
       '</g>';
   }
 
-  /* Ginger root — a body with finger-like rhizomes, built from
-     overlapping fills so it reads as ginger and not as a blob. */
-  function gingerRoot(cx, cy, s, opts) {
-    opts = opts || {};
-    var body = opts.color || '#D89A3C';
-    var crease = opts.crease || '#A9701C';
-    var fingers = '';
-    [[26, -16, -32, 15, 10], [4, -26, -8, 13, 9], [-24, -16, 26, 12, 8]].forEach(function (f) {
-      fingers += '<ellipse cx="' + f[0] + '" cy="' + f[1] + '" rx="' + f[3] + '" ry="' + f[4] +
-        '" transform="rotate(' + f[2] + ' ' + f[0] + ' ' + f[1] + ')" fill="' + body + '"/>';
-    });
+  /* Ginger root — knobbly rhizome. */
+  function gingerRoot(cx, cy, s) {
     return '<g transform="translate(' + cx + ' ' + cy + ') scale(' + s + ')">' +
-      fingers +
-      '<ellipse cx="0" cy="6" rx="34" ry="23" transform="rotate(-9 0 6)" fill="' + body + '"/>' +
-      '<ellipse cx="-20" cy="14" rx="15" ry="11" transform="rotate(18 -20 14)" fill="' + body + '"/>' +
-      '<ellipse cx="22" cy="14" rx="14" ry="10" transform="rotate(-14 22 14)" fill="' + body + '"/>' +
-      '<path d="M-18,-2 q6,10 2,20 M4,-6 q7,10 3,22 M22,-2 q5,9 1,18" fill="none" stroke="' + crease +
-      '" stroke-width="2.2" stroke-linecap="round" opacity=".5"/>' +
-      '<path d="M16,-22 q4,6 6,10 M-2,-30 q2,6 3,10" fill="none" stroke="' + crease +
-      '" stroke-width="2" stroke-linecap="round" opacity=".38"/>' +
+      '<path d="M-30,4 C-34,-10 -18,-16 -8,-10 C-2,-22 14,-20 16,-8 C30,-10 36,4 26,12 ' +
+      'C30,24 16,32 6,25 C-4,34 -22,28 -22,16 C-32,15 -34,10 -30,4 Z" fill="#E0A64B"/>' +
+      '<path d="M-30,4 C-34,-10 -18,-16 -8,-10 C-2,-22 14,-20 16,-8 C30,-10 36,4 26,12 ' +
+      'C30,24 16,32 6,25 C-4,34 -22,28 -22,16 C-32,15 -34,10 -30,4 Z" fill="none" stroke="#B87D24" stroke-width="2"/>' +
+      '<path d="M-14,-6 C-8,2 -6,12 -10,20 M6,-12 C10,-2 10,10 4,20" stroke="#C98C2C" stroke-width="1.8" fill="none" opacity=".55"/>' +
       '</g>';
   }
 
@@ -254,6 +251,83 @@ window.CoastCane.art = (function () {
       ' L1440,560 L0,560 Z" fill="' + DARK + '"/>';
   }
 
+  /* ---------- the glass ---------- */
+
+  /* Tapered tumbler of juice. Reused at every size. */
+  function glass(flavourKey, uid) {
+    var f = FLAVOURS[flavourKey] || FLAVOURS.lime;
+    var gid = 'jg-' + uid;
+
+    /* geometry */
+    var topY = 40, botY = 214, topL = 52, topR = 148, botL = 69, botR = 131;
+    var juiceY = 72;
+    var t = (juiceY - topY) / (botY - topY);
+    var jL = (topL + (botL - topL) * t).toFixed(1);
+    var jR = (topR + (botR - topR) * t).toFixed(1);
+
+    var shape = 'M' + topL + ',' + topY + ' L' + botL + ',' + (botY - 10) +
+      ' Q' + botL + ',' + botY + ' ' + (botL + 11) + ',' + botY +
+      ' L' + (botR - 11) + ',' + botY + ' Q' + botR + ',' + botY + ' ' + botR + ',' + (botY - 10) +
+      ' L' + topR + ',' + topY + ' Z';
+    var juice = 'M' + jL + ',' + juiceY + ' L' + botL + ',' + (botY - 10) +
+      ' Q' + botL + ',' + botY + ' ' + (botL + 11) + ',' + botY +
+      ' L' + (botR - 11) + ',' + botY + ' Q' + botR + ',' + botY + ' ' + botR + ',' + (botY - 10) +
+      ' L' + jR + ',' + juiceY + ' Z';
+
+    /* ice cubes + condensation */
+    var ice =
+      '<g opacity=".55" fill="#FFFFFF">' +
+      '<rect x="76"  y="96"  width="30" height="28" rx="7" transform="rotate(-13 91 110)"/>' +
+      '<rect x="102" y="128" width="27" height="25" rx="6" transform="rotate(11 115 140)"/>' +
+      '<rect x="79"  y="152" width="24" height="22" rx="6" transform="rotate(-7 91 163)"/>' +
+      '</g>';
+    var drops = '';
+    [[64, 118, 3.1], [70, 152, 2.3], [136, 106, 2.7], [131, 145, 3.4], [126, 182, 2.4], [74, 190, 2.9]]
+      .forEach(function (d) {
+        drops += '<circle cx="' + d[0] + '" cy="' + d[1] + '" r="' + d[2] + '" fill="#FFFFFF" opacity=".72"/>';
+      });
+
+    /* rim garnish */
+    var garnish = '';
+    if (f.garnish === 'lime') garnish = limeWheel(63, 42, 21);
+    else if (f.garnish === 'mint') garnish = mintSprig(137, 38, 0.82, 18);
+    else if (f.garnish === 'wedge') garnish = pineapple(139, 41, 0.44);
+    else if (f.garnish === 'root') garnish = gingerRoot(139, 43, 0.52);
+    else if (f.garnish === 'cane') garnish = '<g transform="rotate(16 138 30)">' + stalk(133, 4, 62, 13, 0) + '</g>';
+
+    return '' +
+      '<defs>' +
+      '<linearGradient id="' + gid + '" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0%" stop-color="' + f.top + '"/><stop offset="100%" stop-color="' + f.bot + '"/>' +
+      '</linearGradient>' +
+      '<clipPath id="' + gid + '-c"><path d="' + shape + '"/></clipPath>' +
+      '</defs>' +
+      /* shadow */
+      '<ellipse cx="100" cy="221" rx="44" ry="7" fill="#41602F" opacity=".16"/>' +
+      /* glass body */
+      '<path d="' + shape + '" fill="#FFFFFF" opacity=".55"/>' +
+      '<g clip-path="url(#' + gid + '-c)">' +
+      '<path d="' + juice + '" fill="url(#' + gid + ')"/>' +
+      ice +
+      '<path d="M' + (topL + 6) + ',' + (topY + 6) + ' L' + (botL + 7) + ',' + (botY - 8) +
+      '" stroke="#FFFFFF" stroke-width="5" opacity=".5" stroke-linecap="round"/>' +
+      '</g>' +
+      /* juice surface + rim */
+      '<ellipse cx="100" cy="' + juiceY + '" rx="' + ((jR - jL) / 2).toFixed(1) + '" ry="5.5" fill="' + f.top + '"/>' +
+      '<ellipse cx="100" cy="' + juiceY + '" rx="' + ((jR - jL) / 2 - 4).toFixed(1) + '" ry="3.6" fill="#FFFFFF" opacity=".3"/>' +
+      '<path d="' + shape + '" fill="none" stroke="#41602F" stroke-width="2.4" opacity=".28"/>' +
+      '<ellipse cx="100" cy="' + topY + '" rx="' + ((topR - topL) / 2).toFixed(1) + '" ry="6.5" fill="none" stroke="#41602F" stroke-width="2.4" opacity=".28"/>' +
+      drops + garnish;
+  }
+
+  /* Product-card artwork. */
+  function productArt(flavourKey, id) {
+    return '<svg class="art art--glass" viewBox="0 0 200 236" role="img" aria-hidden="true" focusable="false">' +
+      glass(flavourKey, id) + '</svg>';
+  }
+
+  /* ---------- hero composition ---------- */
+
   function hero() {
     /* Cane cluster flanks the glass so nothing reads as passing through it. */
     var canes =
@@ -328,61 +402,29 @@ window.CoastCane.art = (function () {
       limeWheel(214, 268, 46) +
       mintSprig(399, 256, 1.55, 22) +
       '</g>' +
-      '<g class="hero-art__waves">' + waves({ x0: 46, x1: 574, y: 676, rows: 3, gap: 16, amp: 7, cycles: 6, width: 8 }) + '</g>';
+      '<g class="hero-art__waves">' + waves({ x0: 52, x1: 568, y: 692, rows: 3, gap: 18, amp: 7, cycles: 6, width: 8 }) + '</g>';
   }
 
 
-  /* Brand-intro artwork — a cane bundle. Deliberately NOT the glass:
-     the glass is the hero's moment and appears once on the page. */
+  /* Brand-intro portrait artwork. */
   function storyArt() {
-    var stalks = '';
-    [[68, 196, 26, -7], [126, 148, 22, -3], [186, 214, 28, 2],
-     [248, 132, 21, 5], [306, 190, 25, 8], [358, 160, 19, 12]
-    ].forEach(function (c, i) {
-      var x = c[0], top = c[1], w = c[2], tilt = c[3];
-      stalks +=
-        blade(x + w / 2, top + 10, -(58 + i * 5), -44, 0.2, i % 2 ? '#4E7038' : '#41602F', 1) +
-        blade(x + w / 2, top + 22, 54 + i * 4, -36, 0.2, i % 2 ? '#41602F' : '#4E7038', 1) +
-        stalk(x, top, 520, w, tilt);
-    });
     return '' +
       '<defs><radialGradient id="st-sun" cx="50%" cy="50%" r="50%">' +
-      '<stop offset="0%" stop-color="#FFCB06" stop-opacity=".55"/>' +
+      '<stop offset="0%" stop-color="#FFCB06" stop-opacity=".5"/>' +
       '<stop offset="100%" stop-color="#FFCB06" stop-opacity="0"/></radialGradient></defs>' +
-      '<circle cx="252" cy="212" r="212" fill="url(#st-sun)"/>' +
-      stalks +
-      limeWheel(342, 348, 62) +
-      mintSprig(120, 336, 2.1, -14) +
-      waves({ x0: 18, x1: 462, y: 486, rows: 3, gap: 17, amp: 6, cycles: 5, width: 8 });
+      '<circle cx="286" cy="196" r="196" fill="url(#st-sun)"/>' +
+      blade(106, 142, -64, -50, 0.2, '#41602F', 1) +
+      blade(106, 158, 60, -42, 0.2, '#4E7038', 1) +
+      blade(106, 176, -52, -12, 0.2, '#4E7038', 1) +
+      stalk(94, 128, 486, 24, -5) +
+      blade(366, 114, 66, -52, 0.2, '#41602F', 1) +
+      blade(366, 130, -58, -40, 0.2, '#4E7038', 1) +
+      blade(366, 148, 54, -10, 0.2, '#4E7038', 1) +
+      stalk(356, 100, 486, 21, 5) +
+      '<g transform="translate(88 152) scale(1.52)">' + glass('lime', 'story') + '</g>' +
+      waves({ x0: 24, x1: 456, y: 508, rows: 2, gap: 16, amp: 6, cycles: 5, width: 7 });
   }
 
-  /* Product artwork — a flat colour field per flavour with the
-     ingredient cropped by the frame. Each product owns a colour, so the
-     menu grid reads as four things rather than one thing recoloured. */
-  var FLAVOUR_PANELS = {
-    lime:      { bg: '#C7DE5C', tint: '#D6E783' },
-    mint:      { bg: '#8FC79A', tint: '#AAD5B2' },
-    pineapple: { bg: '#FFD24E', tint: '#FFE083' },
-    ginger:    { bg: '#F7CE8A', tint: '#FADEAF' },
-    cane:      { bg: '#B8CF6A', tint: '#CBDC91' }
-  };
-
-  function flavourPanel(kind) {
-    var f = FLAVOUR_PANELS[kind] || FLAVOUR_PANELS.lime;
-    var art;
-    if (kind === 'lime')           art = limeWheel(228, 112, 118);
-    else if (kind === 'mint')      art = mintSprig(196, 112, 4.4, 12);
-    else if (kind === 'pineapple') art = pineapple(224, 150, 2.4);
-    else if (kind === 'ginger')    art = gingerRoot(226, 126, 2.7);
-    else art = blade(150, 70, -76, -48, 0.2, '#41602F', 1) +
-               blade(150, 86, 80, -40, 0.2, '#4E7038', 1) +
-               stalk(136, 52, 268, 30, -5);
-    return '<svg class="art--panel" viewBox="0 0 320 260" preserveAspectRatio="xMidYMid slice" ' +
-      'role="img" aria-hidden="true" focusable="false">' +
-      '<rect width="320" height="260" fill="' + f.bg + '"/>' +
-      '<circle cx="62" cy="212" r="104" fill="' + f.tint + '" opacity=".55"/>' +
-      art + '</svg>';
-  }
 
   /* Final-CTA decoration: cane clusters at the margins over a wave base. */
   function finalDecor() {
@@ -400,11 +442,90 @@ window.CoastCane.art = (function () {
       waves({ x0: -20, x1: 1460, y: 372, rows: 3, gap: 20, amp: 8, cycles: 11, width: 9 });
   }
 
+  /* ---------- ingredient badges ---------- */
+
+  function ingredient(kind) {
+    var inner = '';
+    if (kind === 'cane') {
+      inner =
+        blade(58, 30, -34, -20, 0.26, '#41602F', 1) +
+        blade(58, 34, 32, -22, 0.26, '#41602F', 1) +
+        blade(76, 46, 30, -12, 0.28, '#4E7038', 1) +
+        stalk(50, 26, 100, 17, -6) +
+        stalk(70, 42, 100, 13, 7);
+    } else if (kind === 'lime') {
+      inner = limeWheel(60, 62, 30);
+    } else if (kind === 'mint') {
+      inner = mintSprig(58, 56, 1.15, -6);
+    } else if (kind === 'ginger') {
+      inner = gingerRoot(60, 62, 0.98);
+    } else if (kind === 'pineapple') {
+      inner = pineapple(60, 66, 0.82);
+    }
+    return '<svg class="art art--badge" viewBox="0 0 120 120" role="img" aria-hidden="true" focusable="false">' +
+      '<circle cx="60" cy="60" r="58" fill="#FDF7C5"/>' + inner + '</svg>';
+  }
+
+  /* ---------- feature line icons ---------- */
+
+  var ICONS = {
+    leaf: '<path d="M8 40C8 22 22 8 42 8c0 20-14 34-34 32Z"/><path d="M8 40c10-4 20-12 26-22"/>',
+    press: '<path d="M10 12h28M14 12v10a10 10 0 0 0 20 0V12"/><path d="M24 32v6"/><path d="M13 40h22l-3 6H16Z"/>',
+    drop: '<path d="M24 6c8 11 14 18 14 25a14 14 0 0 1-28 0c0-7 6-14 14-25Z"/>',
+    sun: '<circle cx="24" cy="24" r="9"/><path d="M24 4v5M24 39v5M4 24h5M39 24h5M10 10l3.5 3.5M34.5 34.5 38 38M38 10l-3.5 3.5M13.5 34.5 10 38"/>'
+  };
+
+  function icon(name) {
+    return '<svg class="art art--icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" ' +
+      'stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" role="img" ' +
+      'aria-hidden="true" focusable="false">' + (ICONS[name] || ICONS.leaf) + '</svg>';
+  }
+
+  /* Branded gallery tile — stands in for a post until real feed
+     images are added in config.instagram.posts. */
+  var TILES = {
+    cane: { bg: '#41602F', ink: '#FDF7C5', wave: '#7FD0EE', label: 'FRESH CANE' },
+    lime: { bg: '#FFCB06', ink: '#2C4520', wave: '#039ED5', label: 'FRESH LIME' },
+    mint: { bg: '#F6EFB4', ink: '#2C4520', wave: '#039ED5', label: 'COOL MINT' }
+  };
+
+  function patternTile(kind) {
+    var t = TILES[kind] || TILES.cane;
+    var art;
+    if (kind === 'lime') {
+      art = limeWheel(100, 88, 46);
+    } else if (kind === 'mint') {
+      art = mintSprig(100, 84, 1.9, -8);
+    } else {
+      art = blade(102, 44, -50, -30, 0.19, t.ink, 1) +
+        blade(102, 56, 52, -26, 0.19, t.ink, 1) +
+        blade(102, 70, -40, -6, 0.19, t.ink, 1) +
+        stalk(92, 34, 136, 20, -5, { color: t.ink, node: t.bg }) +
+        blade(124, 70, 46, -26, 0.19, t.ink, 1) +
+        blade(124, 82, -34, -12, 0.19, t.ink, 1) +
+        stalk(116, 60, 136, 15, 6, { color: t.ink, node: t.bg });
+    }
+    return '<svg class="art--tile" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" ' +
+      'role="img" aria-hidden="true" focusable="false">' +
+      '<rect width="200" height="200" fill="' + t.bg + '"/>' +
+      art +
+      '<text x="100" y="160" text-anchor="middle" fill="' + t.ink + '" ' +
+      'font-family="Manrope, sans-serif" font-size="14" font-weight="800" ' +
+      'letter-spacing="2.6">' + t.label + '</text>' +
+      waves({ x0: -6, x1: 206, y: 182, rows: 2, gap: 11, amp: 4, cycles: 4, width: 5,
+              color: t.wave, opacity: .95 }) +
+      '</svg>';
+  }
+
   return {
     waves: waves,
     wavePath: wavePath,
+    glass: glass,
+    productArt: productArt,
     hero: hero,
-    flavourPanel: flavourPanel,
+    ingredient: ingredient,
+    icon: icon,
+    patternTile: patternTile,
     palm: palm,
     lifestyleScene: lifestyleScene,
     storyArt: storyArt,

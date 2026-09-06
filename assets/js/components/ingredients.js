@@ -1,5 +1,4 @@
-/* Ingredients — an editorial list, not a row of icon badges.
-   Taste and freshness only; no health claims. */
+/* Ingredients — taste and freshness only, no health claims. */
 window.CoastCane = window.CoastCane || {};
 window.CoastCane.ingredients = (function () {
   'use strict';
@@ -7,10 +6,10 @@ window.CoastCane.ingredients = (function () {
     var host = document.querySelector('[data-ingredients]');
     if (!host) return;
     host.innerHTML = window.CoastCane.config.ingredients.map(function (ing, i) {
-      return '<li class="ing reveal" data-reveal style="--i:' + i + '">' +
-        '<span class="ing__dot" style="background:' + ing.color + '" aria-hidden="true"></span>' +
-        '<h3 class="ing__name">' + ing.name + '</h3>' +
-        '<p class="ing__note">' + ing.note + '</p>' +
+      return '<li class="ingredient reveal" data-reveal style="--i:' + i + '">' +
+        '<span class="ingredient__art">' + window.CoastCane.art.ingredient(ing.art) + '</span>' +
+        '<h3 class="ingredient__name">' + ing.name + '</h3>' +
+        '<p class="ingredient__note">' + ing.note + '</p>' +
         '</li>';
     }).join('');
   }

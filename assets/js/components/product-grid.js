@@ -1,38 +1,37 @@
-/* ProductGrid / ProductCard — each flavour owns a colour territory.
-   The card is one large link target, so the whole thing is tappable. */
+/* ProductGrid / ProductCard — rendered from config.products. */
 window.CoastCane = window.CoastCane || {};
 window.CoastCane.productGrid = (function () {
   'use strict';
 
   var ARROW = '<svg class="btn__arrow" viewBox="0 0 20 20" aria-hidden="true" focusable="false">' +
-    '<path d="M3 10h13M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" ' +
+    '<path d="M3 10h13M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.9" ' +
     'stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
   function media(p) {
     if (p.image) {
-      return '<picture>' +
-        (p.imageWebp ? '<source srcset="' + p.imageWebp + '" type="image/webp">' : '') +
-        '<img class="card__img" src="' + p.image + '" alt="" loading="lazy" ' +
-        'decoding="async" width="640" height="520"></picture>';
+      var src = p.imageWebp
+        ? '<source srcset="' + p.imageWebp + '" type="image/webp">' : '';
+      return '<picture>' + src + '<img class="card__img" src="' + p.image +
+        '" alt="' + p.name + ' — Coast Cane sugarcane juice" loading="lazy" decoding="async" width="600" height="700"></picture>';
     }
-    return window.CoastCane.art.flavourPanel(p.art || 'lime');
+    return window.CoastCane.art.productArt(p.art || 'lime', p.id);
   }
 
   function card(p, cfg) {
     var price = (cfg.showPrices && p.price)
-      ? '<span class="card__price">' + (cfg.currency ? cfg.currency + ' ' : '') + p.price + '</span>'
+      ? '<p class="card__price">' + (cfg.currency ? cfg.currency + ' ' : '') + p.price + '</p>'
       : '';
     return '' +
-      '<li class="card reveal" data-reveal>' +
-      '<a class="card__link" data-order-link data-order-product="' + p.name + '" ' +
-      'data-order-label="Order the ' + p.name + '">' +
-      '<span class="card__media">' + media(p) + '</span>' +
-      '<span class="card__body">' +
-      '<span class="card__title">' + p.name + '</span>' +
-      '<span class="card__desc">' + p.description + '</span>' +
-      '<span class="card__foot">' + price +
-      '<span class="card__cta">' + cfg.cta.product + ARROW + '</span>' +
-      '</span></span></a></li>';
+      '<article class="card reveal" data-reveal>' +
+      '<div class="card__media">' + media(p) + '</div>' +
+      '<div class="card__body">' +
+      '<h3 class="card__title">' + p.name + '</h3>' +
+      '<p class="card__desc">' + p.description + '</p>' +
+      price +
+      '<a class="btn btn--ghost card__cta" data-order-link data-order-product="' + p.name + '">' +
+      '<span>' + cfg.cta.product + '</span>' + ARROW + '</a>' +
+      '</div>' +
+      '</article>';
   }
 
   function mount() {
