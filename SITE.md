@@ -18,8 +18,10 @@ npx http-server -p 8080 .      # then open http://localhost:8080
 python3 -m http.server 8080
 ```
 
-To publish: upload the whole folder, or turn on GitHub Pages for this
-repository. There is nothing to compile.
+**Deploying to Cloudflare Pages:** connect this repository, and leave the
+build command empty with the output directory set to `/` (the repository
+root) — there is nothing to compile. Everything, fonts included, is served
+from your own domain, so there are no third-party requests at runtime.
 
 ---
 
@@ -180,10 +182,12 @@ components, so there is a single place to edit it.
 
 ## Two small things to know
 
-1. **Fonts need a server.** Opening `index.html` directly from the file
-   system shows system fonts instead of Manrope/Inter — browsers block font
-   loading on `file://`. Everything else works. Serve it over HTTP (see
-   Quick start) and it's correct.
+1. **Preview over HTTP, not by double-clicking.** Opening `index.html`
+   straight off disk shows system fonts instead of Manrope/Inter: browsers
+   fetch fonts in CORS mode, and a `file://` page has a `null` origin, so
+   they're blocked. This affects local preview only — on any real host
+   (Cloudflare Pages, GitHub Pages, Netlify) the fonts are same-origin and
+   load normally. Use the Quick start command to preview.
 2. **Two Instagram URLs are hardcoded as fallbacks** — the `href` on each
    CTA in `index.html`, and the `<noscript>` block in the delivery section.
    These only matter if JavaScript fails; `config.js` is what the live site
